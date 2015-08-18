@@ -8,8 +8,10 @@ package com.henryserrano.dao;
 import com.henryserrano.model.Persona;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 /**
  *
@@ -37,29 +39,58 @@ public class PersonaDAO extends DAO {
     }
 
     public List<Persona> listar() throws Exception {
-        List<Persona> lista;
+        List<Persona> lista = null;
         ResultSet rs;
 
         try {
             this.Conectar();
-            PreparedStatement st = this.getCn().prepareCall("SELECT * FROM persona");
+            PreparedStatement st = this.getCn().prepareStatement("SELECT id, nombre, apellido,sexo,cedula,codigo FROM persona");
             rs = st.executeQuery();
             lista = new ArrayList();
             while (rs.next()) {
+                
                 Persona per = new Persona();
+                per.setId(rs.getInt("id"));
                 per.setNombre(rs.getString("nombre"));
                 per.setApellido(rs.getString("apellido"));
                 per.setSexo(rs.getString("sexo"));
                 per.setCedula(rs.getInt("cedula"));
                 per.setCodigo(rs.getLong("codigo"));
-
                 lista.add(per);
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw e;
         } finally {
             this.Cerrar();
         }
         return lista;
     }
+    
+    
+       public Persona leerID(Persona per) throws Exception {
+           Persona pers;
+           ResultSet rs;
+        try {
+            this.Conectar();
+            PreparedStatement st = this.getCn().prepareStatement("SELECT id, nombre, apellido, sexo, cedula, codigo WHERE id=?");
+                   
+            rs=st.executeQuery();
+             while (rs.next()){
+                 pers=new Persona();
+                 per.setId(rs.getInt("id"));
+                 per.setNombre(rs.getString("nombre"));
+                per.setApellido(rs.getString("apellido"));
+                per.setSexo(rs.getString("sexo"));
+                per.setCedula(rs.getInt("cedula"));
+                per.setCodigo(rs.getLong("codigo"));
+             }
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            this.Cerrar();
+        }
+return per;
+    }
+    
+    
 }

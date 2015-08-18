@@ -42,7 +42,10 @@
                 </p:column>
                 
                 <p:column headerText="Sexo">
-                    <p:outputLabel value="#{persona.sexo}"/>
+                    <p:outputLabel value="#{persona.sexo}">
+                    <f:converter converterId="sexoConverter" />
+                    </p:outputLabel>
+                    
                 </p:column>
                 
                 <p:column headerText="Cedula">
@@ -52,12 +55,50 @@
                 <p:column headerText="Codigo">
                     <p:outputLabel value="#{persona.codigo}"/>
                 </p:column> 
+                
+                 <p:column headerText="Modificar">
+                     <p:commandLink value="Modificar" actionListener="#{personaBean.leerID(persona)}" oncomplete="PF('wdlgDatos').show();" update=":dlgDatos"/>
+                  
+                </p:column> 
 
 
             </p:dataTable>
         </h:form>
+        
+        <p:dialog header="Datos" widgetVar="wdlgDatos" id="dlgDatos">
+            <h:form>
+             
+                <p:outputLabel value="ID"/>
+                <p:inputText value="#{personaBean.persona.id}"/>
+                
+            <p:outputLabel value="Nombre"/>
+            <p:inputText value="#{personaBean.persona.nombre}"/>
+
+            <p:outputLabel value="Apellido"/>
+            <p:inputText value="#{personaBean.persona.apellido}"/>
+
+            <p:outputLabel value="Sexo"/>
+            <p:selectOneMenu value="#{personaBean.persona.sexo}">
+                <f:selectItem itemLabel="MASCULINO" itemValue="M"/>
+                <f:selectItem itemLabel="FEMENINO" itemValue="F"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Cedula"/>
+            <p:inputText value="#{personaBean.persona.cedula}"/>
+
+            <p:outputLabel value="Codigo"/>
+            <p:inputText value="#{personaBean.persona.codigo}"/>
+            
+            <p:commandButton value="Modificar"  />
+            <p:commandButton value="Cancelar"  />
+            </h:form>
+    
+            
+            
+            
+        </p:dialog>
         <br />
-        <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
+       
     </h:body>
 </html>
 

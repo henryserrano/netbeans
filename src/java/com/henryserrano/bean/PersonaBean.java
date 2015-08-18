@@ -9,15 +9,16 @@ import com.henryserrano.dao.PersonaDAO;
 import com.henryserrano.model.Persona;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 
-import javax.faces.bean.RequestScoped;
+
 
 /**
  *
  * @author Sistemas
  */
 @ManagedBean
-@RequestScoped
+@ViewScoped
 public class PersonaBean {
 
     public PersonaBean() {
@@ -65,7 +66,23 @@ public class PersonaBean {
     throw e;
 }
 }
+   
+      public void leerID(Persona per) throws Exception{
+    PersonaDAO dao;
+    Persona temp;
     
+    
+    try{
+    dao=new PersonaDAO();
+   temp=dao.leerID(per);
+   if(temp != null){
+       this.persona=temp;
+   }
+       
+}catch(Exception e){
+    throw e;
+}
+}
     
     
 }
